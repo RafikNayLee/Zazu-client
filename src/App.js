@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
+import Navbar from "./components/Navbar";
+
+import Login from "./pages/Login";
+import Main from "./pages/Main";
+
+import { GeneralContextProvider } from "./utils/GeneralContext";
+import UnAuthRoute from "./utils/UnAuthRoute";
+import AuthRoute from "./utils/AuthRoute";
+import Register from "./pages/Register";
+
+import themeFile from "./utils/theme";
+
+//MUI
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import NewsSources from "./pages/NewsSources";
+const theme = createMuiTheme(themeFile);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={theme}>
+        <GeneralContextProvider>
+          <Router>
+            <Navbar>
+              <AuthRoute exact path="/" component={Main}></AuthRoute>
+              <AuthRoute exact path="/news" component={NewsSources}></AuthRoute>
+
+              <UnAuthRoute exact path="/login" component={Login} />
+              <UnAuthRoute exact path="/register" component={Register} />
+            </Navbar>
+          </Router>
+        </GeneralContextProvider>
+      </ThemeProvider>
     </div>
   );
 }
