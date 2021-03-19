@@ -60,7 +60,7 @@ const Main = () => {
     if (readOnly) {
       if (readOnly === "read") {
         filtered = filtered.filter(R.propEq("read", true));
-      } else if (readOnly === "read") {
+      } else if (readOnly === "unread") {
         filtered = filtered.filter(R.propEq("read", false));
       }
     }

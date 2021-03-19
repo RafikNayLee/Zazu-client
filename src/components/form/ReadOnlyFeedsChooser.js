@@ -6,7 +6,7 @@ const ReadOnlyFeedsChooser = forwardRef(({ value, loading, onChange }, ref) => {
   const list = [
     { id: "all", name: "All" },
     { id: "read", name: "Read Only" },
-    { id: "undread", name: "UnRead Only" },
+    { id: "unread", name: "UnRead Only" },
   ];
   return (
     <AutoCompleteDataChooser
