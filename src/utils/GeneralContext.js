@@ -5,18 +5,30 @@ const GeneralContext = React.createContext();
 export const AUTH_TOKEN_KEY = "zazu-jwtToken";
 
 const LOADING = "LOADING";
+const ERRORS = "ERRORS";
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
+const NEWS = "news";
+const FEEDS = "feeds";
+const CATEGORIES = "categories";
 
 const ACTION_TYPES = {
   LOADING,
+  ERRORS,
   LOGIN,
   LOGOUT,
+  NEWS,
+  FEEDS,
+  CATEGORIES,
 };
 
 const initialState = {
   loading: false,
   user: null,
+  news: [],
+  feeds: [],
+  categories: [],
+  errors: {},
 };
 
 if (localStorage.getItem(AUTH_TOKEN_KEY)) {
@@ -33,12 +45,20 @@ const generalReducer = (state, action) => {
   switch (action.type) {
     case LOADING:
       return { ...state, loading: action.payload };
+    case ERRORS:
+      return { ...state, errors: action.payload };
     case LOGOUT:
       localStorage.removeItem(AUTH_TOKEN_KEY);
       return { ...state, user: null };
     case LOGIN:
       localStorage.setItem(AUTH_TOKEN_KEY, action.payload.token);
       return { ...state, user: action.payload };
+    case NEWS:
+      return { ...state, news: action.payload };
+    case FEEDS:
+      return { ...state, feeds: action.payload };
+    case CATEGORIES:
+      return { ...state, categories: action.payload };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
@@ -47,7 +67,19 @@ const generalReducer = (state, action) => {
 const GeneralContextProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(generalReducer, initialState);
 
-  const value = { state, dispatch, ACTION_TYPES };
+  const setErrors = (errors) =>
+    dispatch({
+      type: ACTION_TYPES.ERRORS,
+      payload: errors,
+    });
+
+  const setLoading = (loading) =>
+    dispatch({
+      type: ACTION_TYPES.LOADING,
+      payload: loading,
+    });
+
+  const value = { state, dispatch, ACTION_TYPES, setErrors, setLoading };
 
   return (
     <GeneralContext.Provider value={value}>{children}</GeneralContext.Provider>

@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import axios from "axios";
 import useForm from "../utils/useForm";
 import { useGeneralContext } from "../utils/GeneralContext";
+import { handleError } from "../utils/handleError";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(5),
+    backgroundColor: theme.palette.primary.light,
+    height: `100vh`,
   },
   paper: {
     padding: theme.spacing(2, 1),
@@ -39,47 +41,44 @@ const useStyles = makeStyles((theme) => ({
   errorText: {
     margin: theme.spacing(1),
   },
-  loading: {
-    margin: theme.spacing(1),
-  },
 }));
 
 const Login = () => {
   const classes = useStyles();
-  const { state, dispatch, ACTION_TYPES } = useGeneralContext();
-  const [errors, setErrors] = useState({});
+  const {
+    state,
+    dispatch,
+    ACTION_TYPES,
+    setErrors,
+    setLoading,
+  } = useGeneralContext();
+  // const [errors, setErrors] = useState({});
   const { onChange, onSubmit, values } = useForm(loginUserCallBack, {
     email: "",
     password: "",
   });
 
+  const errors = state.errors;
+
   function loginUserCallBack() {
     setErrors({});
-    dispatch({
-      type: ACTION_TYPES.LOADING,
-      payload: true,
-    });
+    setLoading(true);
+
     axios
       .post(`${process.env.REACT_APP_BACKEND_API_URL}/login`, {
         email: values.email,
         password: values.password,
       })
       .then((res) => {
-        dispatch({
-          type: ACTION_TYPES.LOADING,
-          payload: false,
-        });
+        setLoading(false);
         dispatch({
           type: ACTION_TYPES.LOGIN,
           payload: res.data,
         });
       })
       .catch((err) => {
-        setErrors(err.response.data.errors);
-        dispatch({
-          type: ACTION_TYPES.LOADING,
-          payload: false,
-        });
+        setLoading(false);
+        handleError({ setErrors })(err);
       });
   }
 
@@ -112,9 +111,7 @@ const Login = () => {
             helperText={errors["password"]}
             error={Boolean(errors["password"])}
           />
-          {state.loading && (
-            <LinearProgress className={classes.loading} color="primary" />
-          )}
+
           {errors.general && (
             <Typography
               className={classes.errorText}

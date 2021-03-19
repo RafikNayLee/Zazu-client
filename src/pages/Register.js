@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import axios from "axios";
 import useForm from "../utils/useForm";
 import { useGeneralContext } from "../utils/GeneralContext";
+import { handleError } from "../utils/handleError";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,15 +39,17 @@ const useStyles = makeStyles((theme) => ({
   errorText: {
     margin: theme.spacing(1),
   },
-  loading: {
-    margin: theme.spacing(1),
-  },
 }));
 
 const Register = () => {
   const classes = useStyles();
-  const { state, dispatch, ACTION_TYPES } = useGeneralContext();
-  const [errors, setErrors] = useState({});
+  const {
+    state,
+    dispatch,
+    ACTION_TYPES,
+    setErrors,
+    setLoading,
+  } = useGeneralContext();
   const { onChange, onSubmit, values } = useForm(registerUserCallBack, {
     email: "",
     password: "",
@@ -56,10 +58,7 @@ const Register = () => {
 
   function registerUserCallBack() {
     setErrors({});
-    dispatch({
-      type: ACTION_TYPES.LOADING,
-      payload: true,
-    });
+    setLoading(true);
 
     axios
       .post(`${process.env.REACT_APP_BACKEND_API_URL}/register`, {
@@ -68,21 +67,15 @@ const Register = () => {
         confirmPassword: values.confirmPassword,
       })
       .then((res) => {
-        dispatch({
-          type: ACTION_TYPES.LOADING,
-          payload: false,
-        });
+        setLoading(false);
         dispatch({
           type: ACTION_TYPES.LOGIN,
           payload: res.data,
         });
       })
       .catch((err) => {
-        setErrors(err.response.data.errors);
-        dispatch({
-          type: ACTION_TYPES.LOADING,
-          payload: false,
-        });
+        setLoading(false);
+        handleError({ setErrors })(err);
       });
   }
 
@@ -101,8 +94,8 @@ const Register = () => {
             value={values.email}
             name="email"
             label="Email"
-            helperText={errors["email"]}
-            error={Boolean(errors["email"])}
+            helperText={state.errors["email"]}
+            error={Boolean(state.errors["email"])}
           />
           <TextField
             autoComplete={"off"}
@@ -112,8 +105,8 @@ const Register = () => {
             value={values.password}
             name="password"
             label="Password"
-            helperText={errors["password"]}
-            error={Boolean(errors["password"])}
+            helperText={state.errors["password"]}
+            error={Boolean(state.errors["password"])}
           />
           <TextField
             autoComplete={"off"}
@@ -123,19 +116,17 @@ const Register = () => {
             value={values.confirmPassword}
             name="confirmPassword"
             label="Password Confirmation"
-            helperText={errors["confirmPassword"]}
-            error={Boolean(errors["confirmPassword"])}
+            helperText={state.errors["confirmPassword"]}
+            error={Boolean(state.errors["confirmPassword"])}
           />
-          {state.loading && (
-            <LinearProgress className={classes.loading} color="primary" />
-          )}
-          {errors.general && (
+
+          {state.errors.general && (
             <Typography
               className={classes.errorText}
               color="error"
               variant="caption"
             >
-              {errors.general}
+              {state.errors.general}
             </Typography>
           )}
           <Button

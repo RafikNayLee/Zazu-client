@@ -7,10 +7,8 @@ import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useGeneralContext } from "../utils/GeneralContext";
-
-import NewsSource from "../components/NewsSource";
-import { getNewsSources } from "../utils/api";
-
+import { getCategories } from "../utils/api";
+import Category from "../components/Category";
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
@@ -21,24 +19,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewsSources = () => {
+const Categories = () => {
   const context = useGeneralContext();
-
-  const classes = useStyles();
   const { state } = context;
+  const classes = useStyles();
+
   const errors = state.errors;
 
   useEffect(() => {
-    getNewsSources(context);
+    getCategories(context);
   }, []);
 
   return (
     <div className={classes.root}>
-      {state.news.length > 0 ? (
+      {state.categories.length > 0 ? (
         <GridList>
-          {state.news.map((newsSource, i) => (
-            <GridListTile key={`newsSource-${i}`}>
-              <NewsSource newsSource={newsSource} />
+          {state.categories.map((categorie, i) => (
+            <GridListTile key={`categorie-${i}`}>
+              <Category categorie={categorie} />
             </GridListTile>
           ))}
         </GridList>
@@ -48,7 +46,7 @@ const NewsSources = () => {
           color="textPrimary"
           className={classes.text}
         >
-          You don't have any News Sources yet.
+          You don't have any Categories yet.
         </Typography>
       )}
 
@@ -61,4 +59,4 @@ const NewsSources = () => {
   );
 };
 
-export default NewsSources;
+export default Categories;
