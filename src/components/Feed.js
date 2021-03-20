@@ -10,7 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useGeneralContext } from "../utils/GeneralContext";
 
 import icons from "./icons";
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Feed = ({ feed }) => {
   const classes = useStyles();
+  const theme = useTheme();
   const context = useGeneralContext();
 
   const read = (id) => () => {
@@ -48,7 +49,10 @@ const Feed = ({ feed }) => {
         subheader={
           <>
             <Chip
-              color="secondary"
+              style={{
+                backgroundColor: feed.news.color,
+                color: theme.palette.getContrastText(feed.news.color),
+              }}
               label={feed.news.name}
               component="a"
               href={feed.link}

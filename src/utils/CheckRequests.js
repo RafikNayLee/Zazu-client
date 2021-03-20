@@ -13,8 +13,7 @@ const checkRequests = (Wrapped) => {
           return response;
         },
         function (error) {
-          console.log("error: ", error.response);
-          if (!error) {
+          if (!error || !error.response) {
             props.history.push("/500");
           } else {
             switch (error.response.status) {

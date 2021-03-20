@@ -32,7 +32,11 @@ const NewsSource = ({ newsSource }) => {
   return (
     <Card className={classes.card}>
       <CardHeader
-        avatar={icons.news({ color: "primary" })}
+        avatar={icons.news({
+          style: {
+            color: newsSource.color,
+          },
+        })}
         title={newsSource.name}
         subheader={
           <Typography

@@ -14,7 +14,7 @@ import Feed from "../components/Feed";
 import CategoriesChooser from "../components/form/CategoriesChooser";
 import useForm from "../utils/useForm";
 import ReadOnlyFeedsChooser from "../components/form/ReadOnlyFeedsChooser";
-import { getFeeds } from "../utils/api";
+import { getFeeds, getCategories } from "../utils/api";
 
 const R = require("ramda");
 
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = () => {
-  //   const [feeds, setFeeds] = useState([]);
   const context = useGeneralContext();
   const { state } = context;
   const classes = useStyles();
@@ -45,10 +44,10 @@ const Main = () => {
   });
 
   const filterFeeds = (feeds) => {
-    let filtered = [...feeds];
+    const predicates = [];
     const categories = values.categories;
     if (categories.length > 0) {
-      filtered = filtered.filter((f) => {
+      predicates.push((f) => {
         const intersection = f.categories.filter((c) =>
           categories.includes(c.id)
         );
@@ -59,16 +58,17 @@ const Main = () => {
     const readOnly = values.readOnly;
     if (readOnly) {
       if (readOnly === "read") {
-        filtered = filtered.filter(R.propEq("read", true));
+        predicates.push(R.propEq("read", true));
       } else if (readOnly === "unread") {
-        filtered = filtered.filter(R.propEq("read", false));
+        predicates.push(R.propEq("read", false));
       }
     }
-    return filtered;
+    return R.filter(R.allPass(predicates))(feeds);
   };
 
   useEffect(() => {
     getFeeds(context);
+    getCategories(context);
   }, []);
 
   return (

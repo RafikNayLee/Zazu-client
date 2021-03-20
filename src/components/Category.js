@@ -32,7 +32,11 @@ const Category = ({ categorie }) => {
     <Card className={classes.card}>
       <CardHeader
         title={categorie.name}
-        avatar={icons.categories({ color: "primary" })}
+        avatar={icons.categories({
+          style: {
+            color: categorie.color,
+          },
+        })}
       />
       <CardActions>
         <IconButton

@@ -54,7 +54,12 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(0),
     width: "100%",
   },
-  loading: {},
+  loading: {
+    position: "fixed",
+    top: 65,
+    width: "100%",
+    zIndex: theme.zIndex.appBar + 1000,
+  },
 }));
 
 const Navbar = (props) => {

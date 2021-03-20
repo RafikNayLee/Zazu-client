@@ -14,6 +14,8 @@ import { handleError } from "../utils/handleError";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(5),
+    backgroundColor: theme.palette.primary.light,
+    height: `100vh`,
   },
   paper: {
     padding: theme.spacing(2, 1),
