@@ -29,6 +29,23 @@ const useStyles = makeStyles((theme) => ({
     // maxHeight: "500px",
     // direction: "column",
   },
+  toolBar: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: "space-between",
+  },
+  loginArea: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  logoArea: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
   title: {
     flexGrow: 1,
   },
@@ -111,71 +128,50 @@ const Navbar = (props) => {
   return (
     <div className={classes.root}>
       <AppBar color="inherit">
-        <ToolBar>
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="center"
-            spacing={1}
-          >
-            <Grid item>
-              <Grid container direction="row" alignItems="center" spacing={1}>
-                <Grid item>
-                  <div className={classes.zazu}>
-                    <img src={zazu} alt="zazu" />
-                  </div>
-                </Grid>
-                <Grid item>
-                  <Typography
-                    className={classes.title}
-                    color="primary"
-                    variant="h6"
-                  >
-                    Zazu!
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              {state.user && (
-                <IconButton onClick={loadFeeds}>
-                  <Tooltip title="Synchronize App">
-                    {icons.loadFeeds({ color: "secondary" })}
-                  </Tooltip>
-                </IconButton>
-              )}
-            </Grid>
-            <Grid item>
-              {!state.user && (
-                <div>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    component={Link}
-                    to="/register"
-                  >
-                    Register
-                  </Button>
-                  <Button
-                    variant="text"
-                    color="inherit"
-                    component={Link}
-                    to="/login"
-                  >
-                    Login
-                  </Button>
-                </div>
-              )}
-              {state.user && (
-                <IconButton onClick={logout}>
-                  <Tooltip title="Logout">
-                    {icons.logout({ color: "primary" })}
-                  </Tooltip>
-                </IconButton>
-              )}
-            </Grid>
-          </Grid>
+        <ToolBar className={classes.toolBar}>
+          <div className={classes.logoArea}>
+            <div className={classes.zazu}>
+              <img src={zazu} alt="zazu" />
+            </div>
+            <Typography className={classes.title} color="primary" variant="h6">
+              Zazu!
+            </Typography>
+          </div>
+
+          {state.user && (
+            <IconButton onClick={loadFeeds}>
+              <Tooltip title="Synchronize App">
+                {icons.loadFeeds({ color: "secondary" })}
+              </Tooltip>
+            </IconButton>
+          )}
+
+          {!state.user ? (
+            <div className={classes.loginArea}>
+              <Button
+                variant="contained"
+                color="secondary"
+                component={Link}
+                to="/register"
+              >
+                Register
+              </Button>
+              <Button
+                variant="text"
+                color="inherit"
+                component={Link}
+                to="/login"
+              >
+                Login
+              </Button>
+            </div>
+          ) : (
+            <IconButton onClick={logout}>
+              <Tooltip title="Logout">
+                {icons.logout({ color: "primary" })}
+              </Tooltip>
+            </IconButton>
+          )}
         </ToolBar>
       </AppBar>
       <div className={classes.spaceHolder}></div>
