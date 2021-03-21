@@ -14,7 +14,8 @@ import Feed from "../components/Feed";
 import CategoriesChooser from "../components/form/CategoriesChooser";
 import useForm from "../utils/useForm";
 import ReadOnlyFeedsChooser from "../components/form/ReadOnlyFeedsChooser";
-import { getFeeds, getCategories } from "../utils/api";
+import { getFeeds, getCategories, getNewsSources } from "../utils/api";
+import NewsSourcesChooser from "../components/form/NewsSourcesChooser";
 
 const R = require("ramda");
 
@@ -40,6 +41,7 @@ const Main = () => {
   const classes = useStyles();
   const { onChange, values } = useForm(() => {}, {
     categories: [],
+    news: [],
     readOnly: "all",
   });
 
@@ -53,6 +55,10 @@ const Main = () => {
         );
         return intersection.length > 0;
       });
+    }
+    const news = values.news;
+    if (news.length > 0) {
+      predicates.push((f) => news.includes(f.news.id));
     }
 
     const readOnly = values.readOnly;
@@ -69,6 +75,7 @@ const Main = () => {
   useEffect(() => {
     getFeeds(context);
     getCategories(context);
+    getNewsSources(context);
   }, []);
 
   return (
@@ -77,6 +84,9 @@ const Main = () => {
         <Grid container direction="row" spacing={1}>
           <Grid item>
             <CategoriesChooser value={values.categories} onChange={onChange} />
+          </Grid>
+          <Grid item>
+            <NewsSourcesChooser value={values.news} onChange={onChange} />
           </Grid>
           <Grid item>
             <ReadOnlyFeedsChooser value={values.readOnly} onChange={onChange} />

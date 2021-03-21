@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     margin: "auto",
+    display: "block",
   },
 }));
 const Error500 = () => {
