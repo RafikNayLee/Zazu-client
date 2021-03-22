@@ -23,8 +23,6 @@ function App() {
       <GeneralContextProvider>
         <Router>
           <Navbar>
-            <Route exact path="/500" component={Error500}></Route>
-
             <AuthRoute exact path="/" component={Main}></AuthRoute>
             <AuthRoute exact path="/news" component={NewsSources}></AuthRoute>
             <AuthRoute
@@ -35,6 +33,7 @@ function App() {
 
             <UnAuthRoute exact path="/login" component={Login} />
             <UnAuthRoute exact path="/register" component={Register} />
+            <Route exact path="/500" component={Error500}></Route>
           </Navbar>
         </Router>
       </GeneralContextProvider>

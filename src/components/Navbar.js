@@ -44,9 +44,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
+    position: "relative",
   },
   title: {
-    flexGrow: 1,
+    position: "absolute",
+    top: 5,
+    right: -20,
   },
   zazu: {
     width: 50,
@@ -132,7 +135,11 @@ const Navbar = (props) => {
             <div className={classes.zazu}>
               <img src={zazu} alt="zazu" />
             </div>
-            <Typography className={classes.title} color="primary" variant="h6">
+            <Typography
+              className={classes.title}
+              color="secondary"
+              variant="h6"
+            >
               Zazu!
             </Typography>
           </div>
