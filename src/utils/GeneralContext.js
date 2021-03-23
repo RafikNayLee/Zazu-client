@@ -1,5 +1,6 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
+import { getDefaultVoice } from "./speech";
 
 const GeneralContext = React.createContext();
 export const AUTH_TOKEN_KEY = "zazu-jwtToken";
@@ -11,6 +12,7 @@ const LOGOUT = "LOGOUT";
 const NEWS = "news";
 const FEEDS = "feeds";
 const CATEGORIES = "categories";
+const VOICE = "VOICE";
 
 const ACTION_TYPES = {
   LOADING,
@@ -20,6 +22,7 @@ const ACTION_TYPES = {
   NEWS,
   FEEDS,
   CATEGORIES,
+  VOICE,
 };
 
 const initialState = {
@@ -29,6 +32,7 @@ const initialState = {
   feeds: [],
   categories: [],
   errors: {},
+  voice: getDefaultVoice(),
 };
 
 if (localStorage.getItem(AUTH_TOKEN_KEY)) {
@@ -59,6 +63,8 @@ const generalReducer = (state, action) => {
       return { ...state, feeds: action.payload };
     case CATEGORIES:
       return { ...state, categories: action.payload };
+    case VOICE:
+      return { ...state, voice: action.payload };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }

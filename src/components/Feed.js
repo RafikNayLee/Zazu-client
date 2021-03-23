@@ -8,14 +8,12 @@ import Chip from "@material-ui/core/Chip";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
-
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useGeneralContext } from "../utils/GeneralContext";
 
 import icons from "./icons";
 import { readFeed, setFeedCategories } from "../utils/api";
-import { speak } from "../utils/speech";
+import useSpeak, { getListOfVoices } from "../utils/speech";
 import CategoriesChooser from "./form/CategoriesChooser";
 
 const R = require("ramda");
@@ -31,10 +29,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Feed = ({ feed }) => {
+  const speak = useSpeak();
   const classes = useStyles();
   const theme = useTheme();
   const context = useGeneralContext();
 
+  const { state } = context;
   const read = (id) => () => {
     readFeed(context, id);
   };
@@ -67,11 +67,14 @@ const Feed = ({ feed }) => {
       <CardActions>
         <IconButton
           onClick={speak(
+            getListOfVoices()[state.voice].voice,
             `News Title: ${feed.news.name} .Feed Title: ${feed.name}. Feed Description: ${feed.description}`
           )}
         >
           <Tooltip title="Speak">
-            <RecordVoiceOverIcon color="secondary" />
+            {icons.voice({
+              color: "secondary",
+            })}
           </Tooltip>
         </IconButton>
         <IconButton onClick={read(feed.id)}>

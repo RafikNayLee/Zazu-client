@@ -4,7 +4,7 @@ import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 import CategoryIcon from "@material-ui/icons/Category";
 import MarkunreadIcon from "@material-ui/icons/Markunread";
-
+import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 
@@ -17,6 +17,7 @@ const icons = {
   read: (props) => <MarkunreadIcon {...props} />,
   delete: (props) => <DeleteIcon {...props} />,
   edit: (props) => <EditIcon {...props} />,
+  voice: (props) => <RecordVoiceOverIcon {...props} />,
 };
 
 export default icons;

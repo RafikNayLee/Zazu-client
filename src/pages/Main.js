@@ -12,10 +12,11 @@ import { Link } from "react-router-dom";
 import { useGeneralContext } from "../utils/GeneralContext";
 import Feed from "../components/Feed";
 import CategoriesChooser from "../components/form/CategoriesChooser";
-import useForm from "../utils/useForm";
+import useFormWithStorage from "../utils/useFormWithStorage";
 import ReadOnlyFeedsChooser from "../components/form/ReadOnlyFeedsChooser";
 import { getFeeds, getCategories, getNewsSources } from "../utils/api";
 import NewsSourcesChooser from "../components/form/NewsSourcesChooser";
+import VoiceChooser from "../components/form/VoiceChooser";
 
 const R = require("ramda");
 
@@ -37,13 +38,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const context = useGeneralContext();
-  const { state } = context;
+  const { state, dispatch, ACTION_TYPES } = context;
   const classes = useStyles();
-  const { onChange, values } = useForm(() => {}, {
-    categories: [],
-    news: [],
-    readOnly: "all",
-  });
+  const { onChange, values } = useFormWithStorage(
+    () => {},
+    {
+      categories: [],
+      news: [],
+      readOnly: "all",
+      voice: 0,
+    },
+    `zazu-filter-user${state.user.id}`
+  );
 
   const filterFeeds = (feeds) => {
     const predicates = [];
@@ -78,6 +84,15 @@ const Main = () => {
     getNewsSources(context);
   }, []);
 
+  useEffect(() => {
+    if (values.voice) {
+      dispatch({
+        type: ACTION_TYPES.VOICE,
+        payload: values.voice,
+      });
+    }
+  }, [values.voice]);
+
   return (
     <div>
       <Paper className={classes.paper}>
@@ -90,6 +105,9 @@ const Main = () => {
           </Grid>
           <Grid item>
             <ReadOnlyFeedsChooser value={values.readOnly} onChange={onChange} />
+          </Grid>
+          <Grid item>
+            <VoiceChooser value={values.voice} onChange={onChange} />
           </Grid>
           <Grid item xs>
             {" "}
