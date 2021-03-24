@@ -56,10 +56,10 @@ const useStyles = makeStyles((theme) => ({
     height: 50,
     margin: theme.spacing(1),
   },
-  spaceHolder: (props) => ({
+  spaceHolder: {
     display: "block",
-    height: props.navheight,
-  }),
+    height: 65,
+  },
   content: {
     position: "relative",
     width: `100%`,
@@ -83,13 +83,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
   const { state, dispatch, ACTION_TYPES } = useGeneralContext();
-
+  const classes = useStyles();
   const [route, setRoute] = useState("/");
-  const [navheight, setNavheight] = useState(65);
-  const classes = useStyles({
-    navheight,
-  });
-  const toolBarRef = React.createRef();
   const { children } = props;
   useEffect(() => {
     state.user && props.history.push(route);
@@ -135,7 +130,7 @@ const Navbar = (props) => {
   return (
     <div className={classes.root}>
       <AppBar color="inherit">
-        <ToolBar className={classes.toolBar} ref={toolBarRef}>
+        <ToolBar className={classes.toolBar}>
           <div className={classes.logoArea}>
             <div className={classes.zazu}>
               <img src={zazu} alt="zazu" />
