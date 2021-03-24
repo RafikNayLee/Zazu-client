@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   paper: {
-    position: "fixed",
+    position: "sticky",
     top: 65,
     padding: theme.spacing(1),
     width: "100%",
