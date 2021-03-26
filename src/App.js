@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 
 import themeFile from "./utils/theme";
 //MUI
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import NewsSources from "./pages/NewsSources";
 import Categories from "./pages/Categories";
@@ -20,6 +21,7 @@ const theme = createMuiTheme(themeFile);
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <GeneralContextProvider>
         <Router>
           <Navbar>

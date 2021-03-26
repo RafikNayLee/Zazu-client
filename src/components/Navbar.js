@@ -22,11 +22,13 @@ import QuickActions from "./QuickActions";
 import checkRequests from "../utils/CheckRequests";
 import { loadFeeds } from "../utils/api";
 
+const navHeight = 65;
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    // display: "flex",
-    // maxHeight: "500px",
-    // direction: "column",
+    display: "flex",
+    maxHeight: "500px",
+    direction: "column",
   },
   toolBar: {
     display: "flex",
@@ -58,9 +60,11 @@ const useStyles = makeStyles((theme) => ({
   },
   spaceHolder: {
     display: "block",
-    height: 65,
+    height: navHeight,
   },
   content: {
+    marginTop: 65,
+    marginBottom: 65,
     position: "relative",
     width: `100%`,
     transition: theme.transitions.create("margin", {
@@ -75,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
   loading: {
     position: "fixed",
-    top: 65,
+    top: navHeight,
     width: "100%",
     zIndex: theme.zIndex.appBar + 1000,
   },

@@ -21,6 +21,9 @@ import VoiceChooser from "../components/form/VoiceChooser";
 const R = require("ramda");
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    //
+  },
   text: {
     margin: theme.spacing(1),
   },
@@ -94,7 +97,7 @@ const Main = () => {
   }, [values.voice]);
 
   return (
-    <div>
+    <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container direction="row" spacing={1}>
           <Grid item>
