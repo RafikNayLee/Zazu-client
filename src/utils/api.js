@@ -247,7 +247,7 @@ export const loadFeeds = (context) => {
         setLoading(false);
         dispatch({
           type: ACTION_TYPES.FEEDS,
-          payload: [...state.feeds, ...res.data],
+          payload: res.data,
         });
       })
 
