@@ -19,8 +19,8 @@ import zazu from "../images/SVG/zazu.svg";
 import icons from "./icons";
 import QuickActions from "./QuickActions";
 
-import axios from "axios";
 import checkRequests from "../utils/CheckRequests";
+import { loadFeeds } from "../utils/api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +82,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = (props) => {
-  const { state, dispatch, ACTION_TYPES } = useGeneralContext();
+  const context = useGeneralContext();
+  const { state, dispatch, ACTION_TYPES } = context;
   const classes = useStyles();
   const [route, setRoute] = useState("/");
   const { children } = props;
@@ -96,37 +97,8 @@ const Navbar = (props) => {
     });
   };
 
-  const loadFeeds = () => {
-    if (state && state.user) {
-      dispatch({
-        type: ACTION_TYPES.LOADING,
-        payload: true,
-      });
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_API_URL}/loadFeeds`, {
-          headers: {
-            "x-access-token": state.user.token,
-          },
-        })
-        .then((res) => {
-          dispatch({
-            type: ACTION_TYPES.LOADING,
-            payload: false,
-          });
-          dispatch({
-            type: ACTION_TYPES.FEEDS,
-            payload: [...state.feeds, ...res.data],
-          });
-        })
+  const loadFeedsFn = () => loadFeeds(context);
 
-        .catch((err) => {
-          dispatch({
-            type: ACTION_TYPES.LOADING,
-            payload: false,
-          });
-        });
-    }
-  };
   return (
     <div className={classes.root}>
       <AppBar color="inherit">
@@ -145,7 +117,7 @@ const Navbar = (props) => {
           </div>
 
           {state.user && (
-            <IconButton onClick={loadFeeds}>
+            <IconButton onClick={loadFeedsFn}>
               <Tooltip title="Synchronize App">
                 {icons.loadFeeds({ color: "secondary" })}
               </Tooltip>

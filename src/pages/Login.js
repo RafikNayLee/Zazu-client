@@ -26,18 +26,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "2px auto",
     maxWidth: "500px",
   },
-  imageContainer: {
-    position: "relative",
-  },
-  welcome: {
-    position: "absolute",
-    top: -10,
-    left: "50%",
-  },
-  zazu: {
-    width: 200,
-    height: 200,
-  },
+
   title: {
     margin: "auto",
   },
@@ -55,6 +44,18 @@ const useStyles = makeStyles((theme) => ({
   },
   errorText: {
     margin: theme.spacing(1),
+  },
+  imageContainer: {
+    position: "relative",
+  },
+  welcome: {
+    position: "absolute",
+    top: -10,
+    left: "50%",
+  },
+  zazu: {
+    width: 200,
+    height: 200,
   },
 }));
 

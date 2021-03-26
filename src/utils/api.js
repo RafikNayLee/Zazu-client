@@ -232,3 +232,28 @@ export const deleteElementDataFn = (context, elementName, id) => () => {
       });
   }
 };
+
+export const loadFeeds = (context) => {
+  const { state, dispatch, setErrors, setLoading, ACTION_TYPES } = context;
+  if (state && state.user) {
+    setLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_API_URL}/loadFeeds`, {
+        headers: {
+          "x-access-token": state.user.token,
+        },
+      })
+      .then((res) => {
+        setLoading(false);
+        dispatch({
+          type: ACTION_TYPES.FEEDS,
+          payload: [...state.feeds, ...res.data],
+        });
+      })
+
+      .catch((err) => {
+        setLoading(false);
+        handleError({ setErrors })(err);
+      });
+  }
+};

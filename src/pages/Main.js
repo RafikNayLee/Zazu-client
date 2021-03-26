@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.appBar,
   },
   content: {
-    marginTop: 65,
+    marginTop: theme.spacing(1),
   },
 }));
 
