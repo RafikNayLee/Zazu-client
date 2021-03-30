@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Slide from "@material-ui/core/Slide";
 
 import axios from "axios";
 import useForm from "../utils/useForm";
@@ -49,13 +50,16 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   welcome: {
-    position: "absolute",
-    top: -10,
-    left: "50%",
+    margin: theme.spacing(1),
+    zIndex: 1,
   },
   zazu: {
     width: 200,
     height: 200,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 0,
   },
 }));
 
@@ -103,16 +107,18 @@ const Login = () => {
       <div className={classes.root}>
         <Paper className={classes.paper}>
           <Grid container spacing={1}>
-            <Grid item>
+            <Grid item xs={12}>
               <div className={classes.imageContainer}>
-                <img className={classes.zazu} src={zazu} alt="zazu" />
-                <Typography
-                  className={classes.welcome}
-                  variant="caption"
-                  color="primary"
-                >
-                  Login here !
-                </Typography>
+                <Slide in={true} direction="right">
+                  <div className={classes.welcome}>
+                    <Typography variant="caption" color="secondary">
+                      You must login so I can recognize you
+                    </Typography>
+                  </div>
+                </Slide>
+                <Slide in={true} direction="up">
+                  <img className={classes.zazu} src={zazu} alt="zazu" />
+                </Slide>
               </div>
             </Grid>
             <Grid item xs>
