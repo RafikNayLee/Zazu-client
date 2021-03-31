@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +15,7 @@ import { handleError } from "../utils/handleError";
 import Footer from "../components/Footer";
 
 import zazu from "../images/SVG/inviting-zazu.svg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,13 +68,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Register = () => {
   const classes = useStyles();
-  const {
-    state,
-    dispatch,
-    ACTION_TYPES,
-    setErrors,
-    setLoading,
-  } = useGeneralContext();
+  const { dispatch, ACTION_TYPES, setLoading } = useGeneralContext();
+  const [errors, setErrors] = useState({});
   const { onChange, onSubmit, values } = useForm(registerUserCallBack, {
     email: "",
     password: "",
@@ -137,8 +133,8 @@ const Register = () => {
                 value={values.email}
                 name="email"
                 label="Email"
-                helperText={state.errors["email"]}
-                error={Boolean(state.errors["email"])}
+                helperText={errors["email"]}
+                error={Boolean(errors["email"])}
               />
               <TextField
                 autoComplete={"off"}
@@ -148,8 +144,8 @@ const Register = () => {
                 value={values.password}
                 name="password"
                 label="Password"
-                helperText={state.errors["password"]}
-                error={Boolean(state.errors["password"])}
+                helperText={errors["password"]}
+                error={Boolean(errors["password"])}
               />
               <TextField
                 autoComplete={"off"}
@@ -159,17 +155,17 @@ const Register = () => {
                 value={values.confirmPassword}
                 name="confirmPassword"
                 label="Password Confirmation"
-                helperText={state.errors["confirmPassword"]}
-                error={Boolean(state.errors["confirmPassword"])}
+                helperText={errors["confirmPassword"]}
+                error={Boolean(errors["confirmPassword"])}
               />
 
-              {state.errors.general && (
+              {errors.general && (
                 <Typography
                   className={classes.errorText}
                   color="error"
                   variant="caption"
                 >
-                  {state.errors.general}
+                  {errors.general}
                 </Typography>
               )}
               <Button
@@ -183,6 +179,16 @@ const Register = () => {
               </Button>
             </form>
           </Grid>
+        </Paper>
+        <Paper className={classes.paper}>
+          <Typography
+            variant="caption"
+            color="primary"
+            component={Link}
+            to="/login"
+          >
+            Already have an account ? click here to login
+          </Typography>
         </Paper>
       </div>
       <Footer />

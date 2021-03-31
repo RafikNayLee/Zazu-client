@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +15,7 @@ import { handleError } from "../utils/handleError";
 import Footer from "../components/Footer";
 
 import zazu from "../images/SVG/proud-zazu.svg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,20 +66,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
-  const {
-    state,
-    dispatch,
-    ACTION_TYPES,
-    setErrors,
-    setLoading,
-  } = useGeneralContext();
-  // const [errors, setErrors] = useState({});
+  const { dispatch, ACTION_TYPES, setLoading } = useGeneralContext();
+  const [errors, setErrors] = useState({});
   const { onChange, onSubmit, values } = useForm(loginUserCallBack, {
     email: "",
     password: "",
   });
-
-  const errors = state.errors;
 
   function loginUserCallBack() {
     setErrors({});
@@ -167,6 +160,16 @@ const Login = () => {
               </form>
             </Grid>
           </Grid>
+        </Paper>
+        <Paper className={classes.paper}>
+          <Typography
+            variant="caption"
+            color="primary"
+            component={Link}
+            to="/register"
+          >
+            You have no account yet ? click here to register
+          </Typography>
         </Paper>
       </div>
       <Footer />
