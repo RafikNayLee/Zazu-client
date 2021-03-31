@@ -112,7 +112,7 @@ const Login = () => {
                 <Slide in={true} direction="right">
                   <div className={classes.welcome}>
                     <Typography variant="caption" color="secondary">
-                      You must login so I can recognize you
+                      You must login so that Zazu can recognize you
                     </Typography>
                   </div>
                 </Slide>

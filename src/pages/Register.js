@@ -111,7 +111,7 @@ const Register = () => {
                 <Slide in={true} direction="right">
                   <div className={classes.welcome}>
                     <Typography variant="caption" color="secondary">
-                      Register here and I will be your humble servant
+                      Register here and Zazu will be your humble servant
                     </Typography>
                   </div>
                 </Slide>
