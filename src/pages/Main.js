@@ -16,7 +16,6 @@ import useFormWithStorage from "../utils/useFormWithStorage";
 import ReadOnlyFeedsChooser from "../components/form/ReadOnlyFeedsChooser";
 import { getFeeds, getCategories, getNewsSources } from "../utils/api";
 import NewsSourcesChooser from "../components/form/NewsSourcesChooser";
-import VoiceChooser from "../components/form/VoiceChooser";
 
 const R = require("ramda");
 
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const context = useGeneralContext();
-  const { state, dispatch, ACTION_TYPES } = context;
+  const { state } = context;
   const classes = useStyles();
   const { onChange, values } = useFormWithStorage(
     () => {},
@@ -87,15 +86,6 @@ const Main = () => {
     getNewsSources(context);
   }, []);
 
-  useEffect(() => {
-    if (values.voice) {
-      dispatch({
-        type: ACTION_TYPES.VOICE,
-        payload: values.voice,
-      });
-    }
-  }, [values.voice]);
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -109,9 +99,7 @@ const Main = () => {
           <Grid item>
             <ReadOnlyFeedsChooser value={values.readOnly} onChange={onChange} />
           </Grid>
-          <Grid item>
-            <VoiceChooser value={values.voice} onChange={onChange} />
-          </Grid>
+
           <Grid item xs>
             {" "}
             <></>

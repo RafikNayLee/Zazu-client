@@ -13,7 +13,7 @@ import { useGeneralContext } from "../utils/GeneralContext";
 
 import icons from "./icons";
 import { readFeed, setFeedCategories } from "../utils/api";
-import useSpeak, { getListOfVoices } from "../utils/speech";
+import useSpeak from "../utils/speech";
 import CategoriesChooser from "./form/CategoriesChooser";
 
 const R = require("ramda");
@@ -29,12 +29,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Feed = ({ feed }) => {
-  const speak = useSpeak();
+  const { speak } = useSpeak();
   const classes = useStyles();
   const theme = useTheme();
   const context = useGeneralContext();
 
-  const { state } = context;
   const read = (id) => () => {
     readFeed(context, id);
   };
@@ -67,7 +66,6 @@ const Feed = ({ feed }) => {
       <CardActions>
         <IconButton
           onClick={speak(
-            getListOfVoices()[state.voice].voice,
             `News Title: ${feed.news.name} .Feed Title: ${feed.name}. Feed Description: ${feed.description}`
           )}
         >
