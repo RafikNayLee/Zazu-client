@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 200,
     position: "absolute",
-    top: 0,
+    top: 40,
     right: 0,
     zIndex: 0,
   },
@@ -59,6 +59,8 @@ const useStyles = makeStyles((theme) => ({
   },
   welcome: {
     margin: theme.spacing(1),
+  },
+  text: {
     zIndex: 1,
   },
 }));
@@ -110,7 +112,11 @@ const Register = () => {
               <div className={classes.imageContainer}>
                 <Slide in={true} direction="right">
                   <div className={classes.welcome}>
-                    <Typography variant="caption" color="secondary">
+                    <Typography
+                      variant="caption"
+                      color="secondary"
+                      className={classes.text}
+                    >
                       Register here and Zazu will be your humble servant
                     </Typography>
                   </div>
