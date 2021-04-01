@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -66,13 +66,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
-  const { dispatch, ACTION_TYPES, setLoading } = useGeneralContext();
-  const [errors, setErrors] = useState({});
+  const {
+    state,
+    dispatch,
+    ACTION_TYPES,
+    setLoading,
+    setErrors,
+  } = useGeneralContext();
+
   const { onChange, onSubmit, values } = useForm(loginUserCallBack, {
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    setErrors({});
+  }, []);
+
+  const errors = state.errors;
   function loginUserCallBack() {
     setErrors({});
     setLoading(true);
