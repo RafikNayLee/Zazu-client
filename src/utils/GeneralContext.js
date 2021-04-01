@@ -95,4 +95,9 @@ const useGeneralContext = () => {
   return context;
 };
 
-export { GeneralContextProvider, useGeneralContext };
+export {
+  GeneralContextProvider,
+  useGeneralContext,
+  GeneralContext,
+  initialState,
+};
