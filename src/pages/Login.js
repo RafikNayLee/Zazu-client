@@ -79,10 +79,6 @@ const Login = () => {
     password: "",
   });
 
-  useEffect(() => {
-    setErrors({});
-  }, []);
-
   const errors = state.errors;
   function loginUserCallBack() {
     setErrors({});
